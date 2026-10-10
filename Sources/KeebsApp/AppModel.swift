@@ -1,0 +1,139 @@
+#if os(macOS)
+import AppKit
+import Combine
+import ServiceManagement
+import AVFoundation
+import Carbon
+import KeebsCore
+
+@MainActor
+final class AppModel: ObservableObject {
+    @Published var selectedID: String { didSet { selectSound() } }
+    @Published var settings: SoundSettings { didSet { settings.sanitize(); audio.apply(settings); persist() } }
+    @Published var enabled: Bool { didSet { previewTask?.cancel(); tracker.reset(); heldKeys.removeAll(); audio.silence(); persist() } }
+    @Published var favorites: Set<String> { didSet { persist() } }
+    @Published var status = "Checking keyboard access…"
+    @Published var monitorReady = false
+    @Published var loading = true
+    @Published var error: String?
+    @Published var heldKeys: Set<UInt16> = []
+    @Published var keyCount = 0
+    @Published var launchAtLogin = false
+    private let audio = KeyboardAudio()
+    private let monitor = InputMonitor()
+    private var tracker = KeyTracker()
+    private var configObserver: NSObjectProtocol?
+    private var previewTask: Task<Void, Never>?
+    private let defaults = UserDefaults.standard
+    var selected: LibraryItem { LibraryItem.all.first { $0.id == selectedID } ?? LibraryItem.all[0] }
+    var needsPermission: Bool { !CGPreflightListenEventAccess() }
+
+    init() {
+        let stored = UserDefaults.standard
+        selectedID = stored.string(forKey: "selectedProfile") ?? LibraryItem.all[0].id
+        enabled = stored.object(forKey: "enabled") as? Bool ?? true
+        favorites = Set(stored.stringArray(forKey: "favorites") ?? [])
+        var restored = stored.data(forKey: "soundSettings").flatMap { try? JSONDecoder().decode(SoundSettings.self, from: $0) } ?? SoundSettings()
+        restored.sanitize()
+        settings = restored
+        launchAtLogin = SMAppService.mainApp.status == .enabled
+        audio.onReady = { [weak self] message in
+            self?.loading = false
+            self?.error = message
+        }
+        monitor.onKey = { [weak self] code, phase, repeated in
+            MainActor.assumeIsolated { self?.handle(code, phase, repeated) }
+        }
+        monitor.onStatus = { [weak self] message, ready in
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                if self.status != message { self.status = message }
+                if self.monitorReady != ready { self.monitorReady = ready }
+            }
+        }
+        monitor.onReset = { [weak self] in
+            MainActor.assumeIsolated {
+                self?.tracker.reset()
+                self?.heldKeys.removeAll()
+                self?.audio.suspend()
+            }
+        }
+        configObserver = NotificationCenter.default.addObserver(forName: .AVAudioEngineConfigurationChange,
+                                                               object: nil, queue: .main) { [weak self] _ in
+            Task { @MainActor in self?.selectSound() }
+        }
+        selectSound()
+        monitor.begin()
+    }
+
+    func handle(_ code: UInt16, _ phase: KeyPhase, _ repeated: Bool) {
+        guard enabled, !loading, !IsSecureEventInputEnabled(), tracker.accept(code: code, phase: phase, isRepeat: repeated) else { return }
+        if phase == .down { heldKeys.insert(code); keyCount += 1 }
+        else { heldKeys.remove(code) }
+        do { try audio.play(key: PhysicalKey(code: code), phase: phase) }
+        catch { self.error = error.localizedDescription }
+    }
+
+    func localKey(_ code: UInt16, _ phase: KeyPhase, _ repeated: Bool) {
+        // The system-wide tap already observes keys inside this app when authorized.
+        if !monitorReady { handle(code, phase, repeated) }
+    }
+
+    func resetLocalKeys() {
+        if !monitorReady { tracker.reset(); heldKeys.removeAll(); audio.silence() }
+    }
+
+    func preview(_ code: UInt16 = 0) {
+        guard !loading else { return }
+        previewTask?.cancel()
+        previewTask = Task {
+            do {
+                try audio.play(key: PhysicalKey(code: code), phase: .down)
+                heldKeys.insert(code)
+                try await Task.sleep(for: .milliseconds(90))
+                heldKeys.remove(code)
+                try audio.play(key: PhysicalKey(code: code), phase: .up)
+            } catch is CancellationError { heldKeys.remove(code) }
+            catch { self.error = error.localizedDescription }
+        }
+    }
+
+    func toggleFavorite(_ id: String) {
+        if favorites.contains(id) { favorites.remove(id) } else { favorites.insert(id) }
+    }
+
+    func requestPermission() { monitor.requestPermission() }
+    func openPermissions() { monitor.openPermissionSettings() }
+
+    func setLogin(_ value: Bool) {
+        do {
+            if value { try SMAppService.mainApp.register() }
+            else { try SMAppService.mainApp.unregister() }
+            launchAtLogin = SMAppService.mainApp.status == .enabled
+            if value && SMAppService.mainApp.status == .requiresApproval {
+                SMAppService.openSystemSettingsLoginItems()
+            }
+        } catch { self.error = error.localizedDescription }
+    }
+
+    func resetMix() { settings = SoundSettings() }
+
+    private func selectSound() {
+        previewTask?.cancel()
+        tracker.reset()
+        heldKeys.removeAll()
+        loading = true
+        error = nil
+        audio.apply(settings)
+        audio.prepare(selected)
+        persist()
+    }
+
+    private func persist() {
+        defaults.set(selectedID, forKey: "selectedProfile")
+        defaults.set(enabled, forKey: "enabled")
+        defaults.set(Array(favorites), forKey: "favorites")
+        if let data = try? JSONEncoder().encode(settings) { defaults.set(data, forKey: "soundSettings") }
+    }
+}
+#endif
