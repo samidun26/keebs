@@ -60,7 +60,7 @@ final class AppModel: ObservableObject {
         }
         configObserver = NotificationCenter.default.addObserver(forName: .AVAudioEngineConfigurationChange,
                                                                object: nil, queue: .main) { [weak self] _ in
-            Task { @MainActor in self?.selectSound() }
+            MainActor.assumeIsolated { self?.selectSound() }
         }
         selectSound()
         monitor.begin()
