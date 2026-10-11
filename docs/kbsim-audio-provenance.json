@@ -1,0 +1,512 @@
+{
+  "repository": "https://github.com/tplai/kbsim",
+  "commit": "ba103f3b0afa9dab80447aa2e7e2ed80b6bd80e4",
+  "license": "MIT",
+  "licensePath": "LICENSE.md",
+  "files": [
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/BACKSPACE.mp3",
+      "sha": "1e90e07a1e97b83788d88829cdfb195f513fa6f3",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/ENTER.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/ENTER.mp3",
+      "sha": "fc65e0673aeb220cff4eff651f951956e86d9841",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/GENERIC_R0.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/GENERIC_R0.mp3",
+      "sha": "5add95474fb36f65bb35f27b30a71928aa27dc47",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/GENERIC_R1.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/GENERIC_R1.mp3",
+      "sha": "057f144ea91a039dde0d261c19f46245cddec2f1",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/GENERIC_R2.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/GENERIC_R2.mp3",
+      "sha": "e51670b7ffbd6bf575d5011aad3f61d8daa14a84",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/GENERIC_R3.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/GENERIC_R3.mp3",
+      "sha": "b278723797585eac81e644ea28fab05adb17618c",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/GENERIC_R4.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/GENERIC_R4.mp3",
+      "sha": "619e6f903162590c6ef9b4e863ca515aab7d201e",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/press/SPACE.mp3",
+      "sourcePath": "src/assets/audio/alpaca/press/SPACE.mp3",
+      "sha": "5351e127a17dd5b9a95bdae6602a9fa749897542",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/release/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/alpaca/release/BACKSPACE.mp3",
+      "sha": "969e3f38af10be44d4f498814f021d1a4009db64",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/release/ENTER.mp3",
+      "sourcePath": "src/assets/audio/alpaca/release/ENTER.mp3",
+      "sha": "08d112d86199044760197873785b4e1aeb5bd4d9",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/release/GENERIC.mp3",
+      "sourcePath": "src/assets/audio/alpaca/release/GENERIC.mp3",
+      "sha": "22482a4e5e90e86ae52229e1d62d7fe4d10149fa",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/alpaca/release/SPACE.mp3",
+      "sourcePath": "src/assets/audio/alpaca/release/SPACE.mp3",
+      "sha": "92d57bf9bb58c2fa1d6e99d89ca4e4b694b25179",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/BACKSPACE.mp3",
+      "sha": "956ad6cd9a75466665e1a1e99ba6c2b7ceb1d7f7",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/ENTER.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/ENTER.mp3",
+      "sha": "bda40d9d6de58aef7add3a8bb74b8f4501e42985",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/GENERIC_R0.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/GENERIC_R0.mp3",
+      "sha": "853a9e93e0592e98a5263ad7baf2378af4e63b9a",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/GENERIC_R1.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/GENERIC_R1.mp3",
+      "sha": "198190b8a1e4e04b19d3583f11a5e71a1f89b30f",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/GENERIC_R2.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/GENERIC_R2.mp3",
+      "sha": "a8add3c685fb66d829d392c8ada6cef1caa9118b",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/GENERIC_R3.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/GENERIC_R3.mp3",
+      "sha": "a8add3c685fb66d829d392c8ada6cef1caa9118b",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/GENERIC_R4.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/GENERIC_R4.mp3",
+      "sha": "3a3f507447078450bcdbe94e16092c44a82ad10b",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/press/SPACE.mp3",
+      "sourcePath": "src/assets/audio/blackink/press/SPACE.mp3",
+      "sha": "67f26943f55a9da837f0e350187d37dcf7e27e52",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/release/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/blackink/release/BACKSPACE.mp3",
+      "sha": "07755fa4e46b9418990418dcc073ceb85794557a",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/release/ENTER.mp3",
+      "sourcePath": "src/assets/audio/blackink/release/ENTER.mp3",
+      "sha": "e2a26c1addbaba32139032fc8dacd75a62b597fa",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/release/GENERIC.mp3",
+      "sourcePath": "src/assets/audio/blackink/release/GENERIC.mp3",
+      "sha": "663cb46923362d4a7de1c1b839762852aa6a9bb9",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/blackink/release/SPACE.mp3",
+      "sourcePath": "src/assets/audio/blackink/release/SPACE.mp3",
+      "sha": "b4e34ddef89e263fa7af8376d1108c4180e520fe",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/BACKSPACE.mp3",
+      "sha": "9ab2a34af3dfb3b1145b76cb87aab18f997f7448",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/ENTER.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/ENTER.mp3",
+      "sha": "8432b62241cc2ee78fecb5adf6a05f3b40572309",
+      "size": 4478
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/GENERIC_R0.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/GENERIC_R0.mp3",
+      "sha": "2d4ad90071ccf9fcc78403d1981fc599e65d0296",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/GENERIC_R1.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/GENERIC_R1.mp3",
+      "sha": "9d2a86e3369a02845907ac33d3350c13a5c8c6b6",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/GENERIC_R2.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/GENERIC_R2.mp3",
+      "sha": "cb77b3c77cd8751655b4b7ea7306950e8da08951",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/GENERIC_R3.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/GENERIC_R3.mp3",
+      "sha": "d09cd21153ec46cfc10b1eeb242cf3ecfb3d1038",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/GENERIC_R4.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/GENERIC_R4.mp3",
+      "sha": "21d7f6a3efcabd766bf2c690079fc6d7c7d60244",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/press/SPACE.mp3",
+      "sourcePath": "src/assets/audio/bluealps/press/SPACE.mp3",
+      "sha": "4ef43e2c45e97cca80a3a603dedf7e4e5f33aab1",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/release/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/bluealps/release/BACKSPACE.mp3",
+      "sha": "fea1ae4c11f452a3c74c6d0cbf3b475ddb787257",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/release/ENTER.mp3",
+      "sourcePath": "src/assets/audio/bluealps/release/ENTER.mp3",
+      "sha": "2012d5771a2f60fd4f9225a76c4b4c83fd3d53ef",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/release/GENERIC.mp3",
+      "sourcePath": "src/assets/audio/bluealps/release/GENERIC.mp3",
+      "sha": "a85adb343a5e3bfebbd28e8c9396adc7bbef34fe",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/bluealps/release/SPACE.mp3",
+      "sourcePath": "src/assets/audio/bluealps/release/SPACE.mp3",
+      "sha": "6fca3975ce12d4aebbe1c75c21711ddaf70c5a08",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/BACKSPACE.mp3",
+      "sha": "b8d25843745aaba610810d03c01dd9cee909c7d2",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/ENTER.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/ENTER.mp3",
+      "sha": "b2eccd728e8989db2a901c28db0e3e2edb52da14",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/GENERIC_R0.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/GENERIC_R0.mp3",
+      "sha": "317e40dd77fed44d0b7cbedfbd1eb4725c92375b",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/GENERIC_R1.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/GENERIC_R1.mp3",
+      "sha": "4f6af1c7b4b97086fca1bb3a84e371e3b77c7d04",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/GENERIC_R2.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/GENERIC_R2.mp3",
+      "sha": "6dcac82e724879cd44382c755375fdd6981c0c27",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/GENERIC_R3.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/GENERIC_R3.mp3",
+      "sha": "412c08234e20bb0a4e136cf1bfe6f3380513998b",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/GENERIC_R4.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/GENERIC_R4.mp3",
+      "sha": "8c7d986f63fab85578f453f5355be9e9b3d10782",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/press/SPACE.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/press/SPACE.mp3",
+      "sha": "866c52b887e5fc56883468b43941c3bdeb92788e",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/release/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/release/BACKSPACE.mp3",
+      "sha": "0387acba879dfd3d264019a6ff9560963b5d91e9",
+      "size": 4178
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/release/ENTER.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/release/ENTER.mp3",
+      "sha": "404b5d719c57da7b78e2c8439c62d7630a054911",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/release/GENERIC.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/release/GENERIC.mp3",
+      "sha": "26b7c0ef5ee9e618dadc6277707c33357cf05db9",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/boxnavy/release/SPACE.mp3",
+      "sourcePath": "src/assets/audio/boxnavy/release/SPACE.mp3",
+      "sha": "ae49d94882a89c3b10599d1d3ff2d2e57655c167",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/BACKSPACE.mp3",
+      "sha": "a40f95f822b90c80eb095619c1a01d373af6e44a",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/ENTER.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/ENTER.mp3",
+      "sha": "18391bc95459918b7cbabe65f58b41cc0764c565",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/GENERIC_R0.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/GENERIC_R0.mp3",
+      "sha": "2c10024d5ab11657812f1386cb810b7f93361915",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/GENERIC_R1.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/GENERIC_R1.mp3",
+      "sha": "f1618744fdd5d750f740412788d11739dd5fddb1",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/GENERIC_R2.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/GENERIC_R2.mp3",
+      "sha": "acf7b5145583bca928d8e343d434d5ee6819df82",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/GENERIC_R3.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/GENERIC_R3.mp3",
+      "sha": "20ee372a238c62a491ac1e0e0f2e1f81742ccb04",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/GENERIC_R4.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/GENERIC_R4.mp3",
+      "sha": "24e9c69ab74ede705e37d3416ec6b323d8f5268b",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/press/SPACE.mp3",
+      "sourcePath": "src/assets/audio/buckling/press/SPACE.mp3",
+      "sha": "426d5e1ddee220368aa73fe7c8165fb207c4a7f0",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/release/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/buckling/release/BACKSPACE.mp3",
+      "sha": "ccddfbcfb6ad1ea2fa8596a81cfbe7dd3461c615",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/release/ENTER.mp3",
+      "sourcePath": "src/assets/audio/buckling/release/ENTER.mp3",
+      "sha": "4161eb5b5a06e44b898521001910fc8a899e6b97",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/release/GENERIC.mp3",
+      "sourcePath": "src/assets/audio/buckling/release/GENERIC.mp3",
+      "sha": "6a80d56a2697284bb7817280120f64f5424eeb06",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/buckling/release/SPACE.mp3",
+      "sourcePath": "src/assets/audio/buckling/release/SPACE.mp3",
+      "sha": "661b956d864edf2c3a9d9f9dc37667feed8e0352",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/redink/press/BACKSPACE.mp3",
+      "sha": "c7e9abe9ce20fb59135a052d7a157d431c6a15cb",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/ENTER.mp3",
+      "sourcePath": "src/assets/audio/redink/press/ENTER.mp3",
+      "sha": "c5df7f21756e2a05e1c58572f33c9ff55bf7af69",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/GENERIC_R0.mp3",
+      "sourcePath": "src/assets/audio/redink/press/GENERIC_R0.mp3",
+      "sha": "9b2e920174be82476dc4ab76728a2245ea49485e",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/GENERIC_R1.mp3",
+      "sourcePath": "src/assets/audio/redink/press/GENERIC_R1.mp3",
+      "sha": "d67a2c7fba451dd7f2b5c74d6e0aa51fcf1501d7",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/GENERIC_R2.mp3",
+      "sourcePath": "src/assets/audio/redink/press/GENERIC_R2.mp3",
+      "sha": "81673d0ab27b03aaafbc10984c6d8eb63df29edf",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/GENERIC_R3.mp3",
+      "sourcePath": "src/assets/audio/redink/press/GENERIC_R3.mp3",
+      "sha": "db4f0b6427cb4cc80c8d02eafa6cc9f64ce861e7",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/GENERIC_R4.mp3",
+      "sourcePath": "src/assets/audio/redink/press/GENERIC_R4.mp3",
+      "sha": "4fad45f05706a5b7e2d0c77cc3bfa120c7ffa089",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/press/SPACE.mp3",
+      "sourcePath": "src/assets/audio/redink/press/SPACE.mp3",
+      "sha": "3283fd6880809c845bb379f67ef98f8f1d44ece7",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/release/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/redink/release/BACKSPACE.mp3",
+      "sha": "9a25df4221e622e939a6f239814a1e99d0581bb6",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/release/ENTER.mp3",
+      "sourcePath": "src/assets/audio/redink/release/ENTER.mp3",
+      "sha": "2a4babafbf53353199f103bbf1ebb921f6613baf",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/release/GENERIC.mp3",
+      "sourcePath": "src/assets/audio/redink/release/GENERIC.mp3",
+      "sha": "c802221cf9adee5297da1a87d44b71cba95d041e",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/redink/release/SPACE.mp3",
+      "sourcePath": "src/assets/audio/redink/release/SPACE.mp3",
+      "sha": "c167c199afd5e1d7421ba463c164dd05ea306e4e",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/topre/press/BACKSPACE.mp3",
+      "sha": "710ab530b501bb74fb9e02c12e9cc816241a644a",
+      "size": 2924
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/ENTER.mp3",
+      "sourcePath": "src/assets/audio/topre/press/ENTER.mp3",
+      "sha": "ca5cfafcb4af25b735787f2bdefe03346376d27e",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/GENERIC_R0.mp3",
+      "sourcePath": "src/assets/audio/topre/press/GENERIC_R0.mp3",
+      "sha": "00990d37a7951c11066f2515b4c261fb95d0eb7e",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/GENERIC_R1.mp3",
+      "sourcePath": "src/assets/audio/topre/press/GENERIC_R1.mp3",
+      "sha": "a3acbe6faa9af73146bae9e057d3b169e68178a5",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/GENERIC_R2.mp3",
+      "sourcePath": "src/assets/audio/topre/press/GENERIC_R2.mp3",
+      "sha": "798303676f1440f3aa1331b37d51eaf6bf04d04d",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/GENERIC_R3.mp3",
+      "sourcePath": "src/assets/audio/topre/press/GENERIC_R3.mp3",
+      "sha": "3f56111c399ad712dde285024c7fb3823017394a",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/GENERIC_R4.mp3",
+      "sourcePath": "src/assets/audio/topre/press/GENERIC_R4.mp3",
+      "sha": "723e752c75442657d01c64507952f89863cd31b0",
+      "size": 3342
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/press/SPACE.mp3",
+      "sourcePath": "src/assets/audio/topre/press/SPACE.mp3",
+      "sha": "9f5a96e748347325d3b434790240b70737bd9974",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/release/BACKSPACE.mp3",
+      "sourcePath": "src/assets/audio/topre/release/BACKSPACE.mp3",
+      "sha": "3c4ba2b2cf29b8929e17a8e9ce73e1a353580831",
+      "size": 2506
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/release/ENTER.mp3",
+      "sourcePath": "src/assets/audio/topre/release/ENTER.mp3",
+      "sha": "2108d880b9d6bd6af9a3d4103303be1d065d991b",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/release/GENERIC.mp3",
+      "sourcePath": "src/assets/audio/topre/release/GENERIC.mp3",
+      "sha": "536b7a0fd21beca1d71f3cc9329db5e187473b38",
+      "size": 2088
+    },
+    {
+      "path": "Sources/KeebsApp/Resources/Recordings/topre/release/SPACE.mp3",
+      "sourcePath": "src/assets/audio/topre/release/SPACE.mp3",
+      "sha": "62a01a6d7b420db9e58682d24aa4014f9c36effc",
+      "size": 2088
+    }
+  ]
+}

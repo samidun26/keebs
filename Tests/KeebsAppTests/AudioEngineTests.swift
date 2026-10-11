@@ -6,14 +6,20 @@ import KeebsCore
 
 final class AudioEngineTests: XCTestCase {
     func testRealGraphStartsAndRendersRecordedKeysAfterMixChanges() async throws {
-        let ready = expectation(description: "Recorded profile loaded")
+        for item in KeebsApp.LibraryItem.all.filter(\.isRecorded) {
+            try await verifyRecordedProfile(item)
+        }
+    }
+
+    private func verifyRecordedProfile(_ item: KeebsApp.LibraryItem) async throws {
+        let ready = expectation(description: "\(item.name) loaded")
         let audio = try await MainActor.run {
             let audio = KeyboardAudio()
             let format = try XCTUnwrap(AVAudioFormat(standardFormatWithSampleRate: 48_000, channels: 2))
             // Uses the same graph as the app, without depending on CI's sound device.
             try audio.engine.enableManualRenderingMode(.offline, format: format, maximumFrameCount: 1024)
             audio.onReady = { error in XCTAssertNil(error); ready.fulfill() }
-            audio.prepare(KeebsApp.LibraryItem.all[0])
+            audio.prepare(item)
             return audio
         }
         await fulfillment(of: [ready], timeout: 10)

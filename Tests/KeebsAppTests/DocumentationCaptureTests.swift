@@ -43,7 +43,7 @@ private enum DocumentationCapture {
         let app = NSApplication.shared
         app.setActivationPolicy(.regular)
         var frames: [CGImage] = []
-        for id in ["cream-travel", "mxblue-travel", "holy-pandas"] {
+        for id in ["cream-travel", "blackink", "boxnavy", "topre"] {
             model.selectedID = id
             let content = LibraryView().environmentObject(model).environmentObject(updater)
                 .preferredColorScheme(.dark)

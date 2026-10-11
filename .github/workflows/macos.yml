@@ -22,6 +22,8 @@ jobs:
         run: |
           plutil -lint dist/Keebs.app/Contents/Info.plist
           test -n "$(find dist/Keebs.app/Contents/Resources -path '*holy-pandas/GENERIC_R0.mp3' -print -quit)"
+          test -n "$(find dist/Keebs.app/Contents/Resources -path '*blackink/press/GENERIC_R0.mp3' -print -quit)"
+          test -n "$(find dist/Keebs.app/Contents/Resources -path '*topre/release/SPACE.mp3' -print -quit)"
           codesign --verify --deep --strict dist/Keebs.app
           otool -L dist/Keebs.app/Contents/MacOS/Keebs | grep -q '@rpath/Sparkle.framework'
           test -x dist/Keebs.app/Contents/Frameworks/Sparkle.framework/Sparkle

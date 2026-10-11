@@ -19,7 +19,14 @@ struct LibraryItem: Identifiable, Equatable {
         .recording("mxblue-travel", "MX Blue · Full Travel", .clicky, "Bright · sharp · classic", "A5C5E2"),
         .recording("mxbrown-travel", "MX Brown · Full Travel", .tactile, "Warm · tactile · balanced", "CFA88D"),
         .recording("turquoise", "Turquoise · Full Travel", .linear, "Clean · lively · textured", "AECBD0"),
-        .recording("holy-pandas", "Holy Pandas", .tactile, "Rounded · snappy · full", "DDBE79", author: "Thomas Lai / kbsim")
+        .recording("holy-pandas", "Holy Pandas", .tactile, "Rounded · snappy · full", "DDBE79", author: "Thomas Lai / kbsim"),
+        .recording("alpaca", "Alpaca", .linear, "Soft · smooth · rounded", "E4B1BD", author: "Thomas Lai / kbsim"),
+        .recording("blackink", "Gateron Black Ink", .linear, "Deep · smooth · weighty", "A0A7B8", author: "Thomas Lai / kbsim"),
+        .recording("redink", "Gateron Red Ink", .linear, "Light · clean · lively", "D99A91", author: "Thomas Lai / kbsim"),
+        .recording("boxnavy", "Kailh Box Navy", .clicky, "Bold · crisp · resonant", "93ACCA", author: "Thomas Lai / kbsim"),
+        .recording("bluealps", "SKCM Blue Alps", .clicky, "Vintage · sharp · textured", "8DB9DB", author: "Thomas Lai / kbsim"),
+        .recording("topre", "Topre", .tactile, "Soft · rounded · thocky", "B8A4CF", author: "Thomas Lai / kbsim"),
+        .recording("buckling", "Buckling Spring", .clicky, "Metallic · springy · classic", "D1C5AD", author: "Thomas Lai / kbsim")
     ] + SwitchProfile.library.map {
         Self(id: $0.id, name: $0.name, kind: $0.kind, character: $0.character,
              color: $0.color, synthesized: $0, folder: nil, author: "Keebs original synthesis")
