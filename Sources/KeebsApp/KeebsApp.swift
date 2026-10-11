@@ -7,6 +7,10 @@ import KeebsCore
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let updater = AppUpdater()
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        // Also covers running the executable directly, outside Launch Services.
+        NSApp.setActivationPolicy(.accessory)
+    }
     func applicationDidFinishLaunching(_ notification: Notification) { updater.start() }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 }
@@ -16,14 +20,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 struct KeebsApplication: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var model = AppModel()
+    @StateObject private var studio = StudioWindowController()
     var body: some Scene {
-        Window("Keebs", id: "library") {
-            LibraryView().environmentObject(model).environmentObject(delegate.updater)
-                .preferredColorScheme(.dark)
-                .frame(minWidth: 1040, minHeight: 720)
-        }
-        .defaultSize(width: 1240, height: 820)
-        .windowStyle(.hiddenTitleBar)
+        MenuBarExtra("Keebs", systemImage: model.enabled ? "keyboard" : "keyboard.badge.ellipsis") {
+            MenuPanel(openStudio: { studio.show(model: model, updater: delegate.updater) })
+                .environmentObject(model).environmentObject(delegate.updater).preferredColorScheme(.dark)
+        }.menuBarExtraStyle(.window)
         .commands {
             CommandGroup(after: .appInfo) {
                 UpdateMenuItems(updater: delegate.updater)
@@ -32,9 +34,6 @@ struct KeebsApplication: App {
                     .keyboardShortcut("m", modifiers: [.command, .shift])
             }
         }
-        MenuBarExtra("Keebs", systemImage: model.enabled ? "keyboard" : "keyboard.badge.ellipsis") {
-            MenuPanel().environmentObject(model).environmentObject(delegate.updater).preferredColorScheme(.dark)
-        }.menuBarExtraStyle(.window)
     }
 }
 
@@ -42,7 +41,7 @@ struct KeebsApplication: App {
 struct MenuPanel: View {
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var updater: AppUpdater
-    @Environment(\.openWindow) var openWindow
+    var openStudio: () -> Void = {}
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
@@ -87,7 +86,7 @@ struct MenuPanel: View {
             Button("Check for Updates…") { updater.checkForUpdates() }
                 .disabled(!updater.canCheckForUpdates)
             HStack {
-                Button("Open studio") { openWindow(id: "library"); NSApp.activate(ignoringOtherApps: true) }
+                Button("Open studio", action: openStudio)
                 Spacer()
                 Button("Quit") { NSApp.terminate(nil) }
             }
