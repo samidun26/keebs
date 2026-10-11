@@ -26,6 +26,8 @@ jobs:
           otool -L dist/Keebs.app/Contents/MacOS/Keebs | grep -q '@rpath/Sparkle.framework'
           test -x dist/Keebs.app/Contents/Frameworks/Sparkle.framework/Sparkle
           python3 -m unittest discover -s Tests/ReleaseTests -v
+      - name: Launch packaged app
+        run: python3 scripts/smoke-app.py
       - name: Zip app
         run: ditto -c -k --sequesterRsrc --keepParent dist/Keebs.app dist/Keebs-macOS.zip
       - uses: actions/upload-artifact@v4

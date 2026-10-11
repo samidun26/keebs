@@ -26,6 +26,7 @@ do {
     }
     let metadata: [String: Any] = [
         "signature": signature.base64EncodedString(), "length": archive.count,
+        "sha256": SHA256.hash(data: archive).map { String(format: "%02x", $0) }.joined(),
         "version": version, "build": build, "minimumSystemVersion": plist["LSMinimumSystemVersion"] as? String ?? "14.0"
     ]
     let json = try JSONSerialization.data(withJSONObject: metadata, options: [.sortedKeys])

@@ -1,4 +1,5 @@
 import base64
+import hashlib
 import importlib.util
 import tempfile
 import unittest
@@ -19,6 +20,7 @@ class AppcastTests(unittest.TestCase):
         self.metadata = {
             "version": "0.1.2", "build": "3", "minimumSystemVersion": "14.0",
             "length": self.archive.stat().st_size, "signature": base64.b64encode(bytes(64)).decode(),
+            "sha256": hashlib.sha256(self.archive.read_bytes()).hexdigest(),
         }
 
     def test_feed_contains_signed_version_and_escaped_notes(self):
@@ -38,6 +40,6 @@ class AppcastTests(unittest.TestCase):
             appcast.create_appcast(self.metadata, self.archive, "v0.1.2")
 
     def test_archive_changed_after_signing_is_rejected(self):
-        self.archive.write_bytes(b"changed")
+        self.archive.write_bytes(b"x" * self.archive.stat().st_size)
         with self.assertRaises(ValueError):
             appcast.create_appcast(self.metadata, self.archive, "v0.1.2")

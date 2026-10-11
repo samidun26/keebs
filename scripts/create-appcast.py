@@ -3,6 +3,7 @@
 import argparse
 import base64
 import datetime
+import hashlib
 import json
 import re
 import xml.etree.ElementTree as ET
@@ -24,7 +25,7 @@ def create_appcast(metadata, archive, tag, notes=""):
     if len(base64.b64decode(signature, validate=True)) != 64:
         raise ValueError("An Ed25519 archive signature is required.")
     size = archive.stat().st_size
-    if size <= 0 or metadata["length"] != size:
+    if size <= 0 or metadata["length"] != size or metadata["sha256"] != hashlib.sha256(archive.read_bytes()).hexdigest():
         raise ValueError("Archive changed after signing.")
     rss = ET.Element("rss", version="2.0")
     channel = ET.SubElement(rss, "channel")
