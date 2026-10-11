@@ -1,8 +1,26 @@
+<p align="center">
+  <img src="docs/images/logo.png" width="112" alt="Keebs mechanical switch logo">
+</p>
+
 # Keebs
 
 A native macOS mechanical keyboard sound studio: a full SwiftUI desktop app with a menu bar shortcut, 22 sound profiles, and a little more presence in every keystroke.
 
 Requires **macOS 14 or later**. Uses Apple's frameworks and Sparkle 2.10.0 for signed in-app updates.
+
+![Keebs desktop studio showing switch profiles and sound mix controls](docs/images/studio.png)
+
+## Preview
+
+Explore 22 profiles in the desktop studio, or adjust your sound directly from the menu bar.
+
+![Animated preview of Cream, MX Blue, and Holy Pandas profiles in Keebs](docs/images/preview.gif)
+
+<p align="center">
+  <img src="docs/images/menu-bar.png" width="350" alt="Keebs menu bar controls for pause, switch selection, volume, stereo width, room, and desk resonance">
+</p>
+
+*Rendered from the app's native views with demonstration settings. [How to refresh the visuals](docs/VISUALS.md).*
 
 ## Run on your Mac
 
