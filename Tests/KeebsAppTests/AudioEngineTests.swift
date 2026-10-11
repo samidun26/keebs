@@ -18,6 +18,10 @@ final class AudioEngineTests: XCTestCase {
         }
         await fulfillment(of: [ready], timeout: 10)
         try await MainActor.run {
+            guard audio.engine.isRunning else {
+                XCTFail("Loading a recorded profile must start the playback engine")
+                return
+            }
             for step in 0...100 {
                 var settings = SoundSettings()
                 settings.volume = Double(step) / 100

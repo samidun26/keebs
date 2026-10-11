@@ -34,7 +34,7 @@ struct LibraryItem: Identifiable, Equatable {
 
     func audioURL(group: KeyGroup, phase: KeyPhase, variant: Int) throws -> URL {
         guard let folder else { throw AudioError.missingRecording }
-        let prefix = "Resources/Recordings/\(folder)"
+        let prefix = "Recordings/\(folder)"
         let pressPrefix = folder == "holy-pandas" ? "" : "press/"
         let key: String
         switch group {
@@ -44,8 +44,14 @@ struct LibraryItem: Identifiable, Equatable {
         case .delete: key = "BACKSPACE"
         }
         let path = "\(prefix)/\(phase == .down ? pressPrefix : "release/")\(key).mp3"
-        if let url = Bundle.module.resourceURL?.appendingPathComponent(path),
-           FileManager.default.fileExists(atPath: url.path) { return url }
+        // SwiftPM's flat development bundle can treat the copied Resources
+        // directory as its resource root; universal builds use Contents/Resources.
+        if let root = Bundle.module.resourceURL {
+            for base in [root.appendingPathComponent("Resources"), root] {
+                let url = base.appendingPathComponent(path)
+                if FileManager.default.fileExists(atPath: url.path) { return url }
+            }
+        }
         if group != .regular { return try audioURL(group: .regular, phase: phase, variant: variant) }
         throw AudioError.missingRecording
     }
