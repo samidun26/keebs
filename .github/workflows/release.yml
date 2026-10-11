@@ -1,0 +1,41 @@
+name: Publish signed update
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+concurrency:
+  group: keebs-release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate release setup
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          test -n "$SPARKLE_PRIVATE_KEY" || { echo "Set the SPARKLE_PRIVATE_KEY repository secret. See docs/UPDATES.md."; exit 1; }
+          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)
+          test "$GITHUB_REF_NAME" = "v$version"
+      - name: Test
+        run: |
+          swift test
+          python3 -m unittest discover -s Tests/ReleaseTests -v
+      - name: Build universal app
+        run: KEEBS_UNIVERSAL=1 bash scripts/build-app.sh
+      - name: Archive
+        run: ditto -c -k --sequesterRsrc --keepParent dist/Keebs.app dist/Keebs-macOS.zip
+      - name: Sign and create update feed
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          swift scripts/sign-release.swift dist/Keebs-macOS.zip Resources/Info.plist > "$RUNNER_TEMP/keebs-signature.json"
+          python3 scripts/create-appcast.py --metadata "$RUNNER_TEMP/keebs-signature.json" --archive dist/Keebs-macOS.zip --tag "$GITHUB_REF_NAME" --output dist/appcast.xml
+      - name: Publish app and feed together
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/Keebs-macOS.zip dist/appcast.xml --draft --title "Keebs ${GITHUB_REF_NAME#v}" --generate-notes
+          gh release edit "$GITHUB_REF_NAME" --draft=false --latest

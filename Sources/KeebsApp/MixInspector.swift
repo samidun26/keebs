@@ -5,6 +5,7 @@ import KeebsCore
 @MainActor
 struct MixInspector: View {
     @EnvironmentObject var model: AppModel
+    @EnvironmentObject var updater: AppUpdater
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 25) {
@@ -15,18 +16,18 @@ struct MixInspector: View {
                 }
                 Text("Small adjustments. A whole new atmosphere.").font(.system(size: 11)).foregroundStyle(Palette.muted).lineSpacing(4)
                 divider
-                control("Volume", icon: "speaker.wave.2", value: $model.settings.volume,
+                control("Volume", icon: "speaker.wave.2", value: model.mixBinding(\.volume),
                         detail: "A comfortable level for your flow.")
-                control("Stereo width", icon: "arrow.left.and.right", value: $model.settings.width,
+                control("Stereo width", icon: "arrow.left.and.right", value: model.mixBinding(\.width),
                         detail: "Each key finds its place, left to right.")
-                control("Room", icon: "square.dashed", value: $model.settings.room,
+                control("Room", icon: "square.dashed", value: model.mixBinding(\.room),
                         detail: "A little space around every keystroke.")
-                control("Desk resonance", icon: "waveform.path", value: $model.settings.resonance,
+                control("Desk resonance", icon: "waveform.path", value: model.mixBinding(\.resonance),
                         detail: "Add warmth and body to the low end.")
                 divider
                 VStack(alignment: .leading, spacing: 18) {
-                    option("Natural variation", detail: "Five press variations, less repetition.", value: $model.settings.variation)
-                    option("Key release", detail: "Hear the switch return, too.", value: $model.settings.releases)
+                    option("Natural variation", detail: "Five press variations, less repetition.", value: model.mixBinding(\.variation))
+                    option("Key release", detail: "Hear the switch return, too.", value: model.mixBinding(\.releases))
                 }
                 divider
                 VStack(alignment: .leading, spacing: 12) {
@@ -39,6 +40,12 @@ struct MixInspector: View {
                 Button("Reset sound mix") { model.resetMix() }.buttonStyle(.plain).font(.system(size: 10)).foregroundStyle(Palette.sage)
                 divider
                 option("Launch at login", detail: "Keep your favorite sound close.", value: Binding(get: { model.launchAtLogin }, set: { model.setLogin($0) }))
+                divider
+                option("Check for updates automatically", detail: "Get notified when a new version is available.",
+                       value: Binding(get: { updater.automaticallyChecksForUpdates }, set: { updater.setAutomaticChecks($0) }))
+                Button("Check for Updates…") { updater.checkForUpdates() }
+                    .disabled(!updater.canCheckForUpdates)
+                    .font(.system(size: 10)).buttonStyle(.plain).foregroundStyle(Palette.sage)
                 if model.needsPermission {
                     Button("Open Input Monitoring settings") { model.openPermissions() }.font(.system(size: 10)).buttonStyle(.plain).foregroundStyle(Palette.sage)
                 }

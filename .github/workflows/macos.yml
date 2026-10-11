@@ -7,7 +7,11 @@ on:
 
 jobs:
   macos:
-    runs-on: macos-14
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-26]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Test audio and key tracking
@@ -19,9 +23,14 @@ jobs:
           plutil -lint dist/Keebs.app/Contents/Info.plist
           test -n "$(find dist/Keebs.app/Contents/Resources -path '*holy-pandas/GENERIC_R0.mp3' -print -quit)"
           codesign --verify --deep --strict dist/Keebs.app
+          otool -L dist/Keebs.app/Contents/MacOS/Keebs | grep -q '@rpath/Sparkle.framework'
+          test -x dist/Keebs.app/Contents/Frameworks/Sparkle.framework/Sparkle
+          python3 -m unittest discover -s Tests/ReleaseTests -v
+      - name: Launch packaged app
+        run: python3 scripts/smoke-app.py
       - name: Zip app
         run: ditto -c -k --sequesterRsrc --keepParent dist/Keebs.app dist/Keebs-macOS.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: Keebs-macOS
+          name: Keebs-${{ matrix.os }}
           path: dist/Keebs-macOS.zip
