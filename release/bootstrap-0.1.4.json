@@ -1,0 +1,8 @@
+{
+  "signature": "3Z1vRxt8VlwE/XlFP7sNQ/Zd5hFtoXU2ldOIpghscFQ/3fHSBrXK//UDhAbdd08Q5rx/QYHDMFMexv8+KZX+BQ==",
+  "length": 2032843,
+  "sha256": "19afda61760eeb19a70e084417157c35636a52ee7ff1f96c43f681d39d030878",
+  "version": "0.1.4",
+  "build": "5",
+  "minimumSystemVersion": "14.0"
+}

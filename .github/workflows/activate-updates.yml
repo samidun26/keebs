@@ -1,0 +1,41 @@
+name: Activate signed updates
+on:
+  push:
+    branches: [codex/activate-signed-updates]
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: keebs-release
+  cancel-in-progress: false
+jobs:
+  activate:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the exact tested 0.1.4 artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/samidun26/keebs/actions/runs/38133088405 --jq '.conclusion' | /usr/bin/grep -qx success
+          gh api repos/samidun26/keebs/actions/artifacts/11700011532 --jq '.workflow_run.head_sha' | /usr/bin/grep -qx 575d584a08d8508fee124c07369cc07d7321331e
+          gh api repos/samidun26/keebs/actions/artifacts/11700011532/zip > "$RUNNER_TEMP/keebs-tested-artifact.zip"
+          mkdir -p dist
+          unzip -p "$RUNNER_TEMP/keebs-tested-artifact.zip" Keebs-macOS.zip > dist/Keebs-macOS.zip
+      - name: Verify signature, archive integrity, and embedded version
+        run: |
+          unzip -p dist/Keebs-macOS.zip Keebs.app/Contents/Info.plist > "$RUNNER_TEMP/keebs-archive-info.plist"
+          cmp Resources/Info.plist "$RUNNER_TEMP/keebs-archive-info.plist"
+          swift scripts/verify-release.swift dist/Keebs-macOS.zip release/bootstrap-0.1.4.json "$RUNNER_TEMP/keebs-archive-info.plist"
+          python3 -m unittest discover -s Tests/ReleaseTests -v
+          python3 scripts/create-appcast.py --metadata release/bootstrap-0.1.4.json --archive dist/Keebs-macOS.zip --tag v0.1.4 --notes release/0.1.4-notes.md --output dist/appcast.xml
+      - name: Publish the signed app and feed together
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v0.1.4 dist/Keebs-macOS.zip dist/appcast.xml --repo samidun26/keebs --target 4db2189109c39b76f6d81ef707f7c48ccc3ce147 --draft --title "Keebs 0.1.4" --notes-file release/0.1.4-notes.md
+          gh release edit v0.1.4 --repo samidun26/keebs --draft=false --latest
+      - name: Verify the public update endpoint
+        run: |
+          curl --fail --location --retry 5 --retry-delay 3 https://github.com/samidun26/keebs/releases/latest/download/appcast.xml --output "$RUNNER_TEMP/public-appcast.xml"
+          cmp dist/appcast.xml "$RUNNER_TEMP/public-appcast.xml"
