@@ -1,7 +1,9 @@
+import base64
 import hashlib
 import json
 import os
 import plistlib
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -14,7 +16,6 @@ class SigningTests(unittest.TestCase):
     # Public RFC 8032 test key, unrelated to Keebs' production update key.
     seed = "nWGxne/9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A="
     public_key = "11qYAYKxCrfVS/7TyWQHOg7hcvPapiMlrwIaaPcHURo="
-    expected_signature = "3knjTM3m+nn3FPBNtRsszNfC7lbNdkqiQxWoJAY5EoR8kSCtJIuk1aKHRx1vtpVcGL9SqT3Sh/CIolv0X3EZBQ=="
 
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()
@@ -42,7 +43,20 @@ class SigningTests(unittest.TestCase):
         result = self.sign(self.seed)
         self.assertEqual(result.returncode, 0, result.stderr)
         metadata = json.loads(result.stdout)
-        self.assertEqual(metadata["signature"], self.expected_signature)
+        # CryptoKit may randomize the Ed25519 nonce. Verify authenticity with
+        # OpenSSL rather than requiring byte-identical deterministic signatures.
+        root = Path(self.directory.name)
+        public_der = root / "public.der"
+        public_der.write_bytes(bytes.fromhex("302a300506032b6570032100") + base64.b64decode(self.public_key))
+        signature = root / "signature.bin"
+        signature.write_bytes(base64.b64decode(metadata["signature"], validate=True))
+        candidates = ["/opt/homebrew/opt/openssl@3/bin/openssl", "/usr/local/opt/openssl@3/bin/openssl", shutil.which("openssl")]
+        openssl = next(p for p in candidates if p and Path(p).is_file())
+        verified = subprocess.run([openssl, "pkeyutl", "-verify", "-rawin", "-pubin",
+                                   "-keyform", "DER", "-inkey", str(public_der),
+                                   "-sigfile", str(signature), "-in", str(self.archive)],
+                                  capture_output=True, text=True, timeout=10)
+        self.assertEqual(verified.returncode, 0, verified.stdout + verified.stderr)
         self.assertEqual(metadata["sha256"], hashlib.sha256(self.archive.read_bytes()).hexdigest())
         self.assertNotIn(self.seed, result.stdout + result.stderr)
 
