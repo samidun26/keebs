@@ -70,7 +70,7 @@ final class KeebsCoreTests: XCTestCase {
             .deletingLastPathComponent().appendingPathComponent("Sources/KeebsApp/Resources/Recordings")
         let enumerator = try XCTUnwrap(FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil))
         let urls = enumerator.compactMap { $0 as? URL }.filter { $0.pathExtension == "mp3" }
-        XCTAssertEqual(urls.count, 66)
+        XCTAssertEqual(urls.count, 150)
         for url in urls {
             let audio = try AVAudioFile(forReading: url, commonFormat: .pcmFormatFloat32, interleaved: false)
             XCTAssertGreaterThan(audio.length, 0, url.path)

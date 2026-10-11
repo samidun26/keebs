@@ -5,7 +5,7 @@ The README uses Keebs' existing app icon and images rendered from its actual Swi
 - `images/logo.png`: the 1024-pixel app icon, exported with the same generator used by the app build.
 - `images/studio.png`: the desktop studio with Cream Full Travel selected.
 - `images/menu-bar.png`: the actual menu bar panel with Holy Pandas selected.
-- `images/preview.gif`: an animated profile preview cycling through Cream, MX Blue, and Holy Pandas.
+- `images/preview.gif`: an animated profile preview cycling through Cream, Gateron Black Ink, Kailh Box Navy, and Topre.
 
 ## Refresh the assets
 

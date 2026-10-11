@@ -212,10 +212,10 @@ struct LibraryView: View {
     private var about: some View {
         VStack(alignment: .leading, spacing: 18) {
             Text("A small joy, on every keystroke.").font(.title2)
-            Text("Keebs is a native macOS sound studio with 6 recorded switch sets and 16 original synthesized profiles. It listens only to physical key codes, never characters, and pauses during macOS secure input.")
-            Text("Recordings: Mechvibes, MIT license (Hai Nguyen and contributors). Holy Pandas: Thomas Lai / kbsim, MIT license. Switch names identify the source recordings; Keebs has no affiliation with switch manufacturers.")
+            Text("Keebs is a native macOS sound studio with \(LibraryItem.all.filter(\.isRecorded).count) recorded switch sets and \(SwitchProfile.library.count) original synthesized profiles. It listens only to physical key codes, never characters, and pauses during macOS secure input.")
+            Text("Recordings: Mechvibes, MIT license (Hai Nguyen and contributors). Holy Pandas and seven additional sets: Thomas Lai / kbsim, MIT license. Switch names identify the source recordings; Keebs has no affiliation with switch manufacturers.")
             Link("View source and full license notices", destination: URL(string: "https://github.com/samidun26/keebs")!)
-            Text("Settings and favorites stay on this Mac. No analytics, network requests, or keystroke history.").foregroundStyle(Palette.muted)
+            Text("Settings and favorites stay on this Mac. No analytics or keystroke history. Network access is used only for update checks and downloads.").foregroundStyle(Palette.muted)
             Button("Done") { showAbout = false }.buttonStyle(.borderedProminent)
         }.font(.system(size: 13)).lineSpacing(4).padding(30).frame(width: 500).background(Palette.background)
     }

@@ -4,7 +4,7 @@
 
 # Keebs
 
-A native macOS mechanical keyboard sound studio: a full SwiftUI desktop app with a menu bar shortcut, 22 sound profiles, and a little more presence in every keystroke.
+A native macOS mechanical keyboard sound studio: a full SwiftUI desktop app with a menu bar shortcut, 29 sound profiles, and a little more presence in every keystroke.
 
 Requires **macOS 14 or later**. Uses Apple's frameworks and Sparkle 2.10.0 for signed in-app updates.
 
@@ -12,9 +12,9 @@ Requires **macOS 14 or later**. Uses Apple's frameworks and Sparkle 2.10.0 for s
 
 ## Preview
 
-Explore 22 profiles in the desktop studio, or adjust your sound directly from the menu bar.
+Explore 29 profiles in the desktop studio, or adjust your sound directly from the menu bar.
 
-![Animated preview of Cream, MX Blue, and Holy Pandas profiles in Keebs](docs/images/preview.gif)
+![Animated preview of Cream, Gateron Black Ink, Kailh Box Navy, and Topre profiles in Keebs](docs/images/preview.gif)
 
 <p align="center">
   <img src="docs/images/menu-bar.png" width="350" alt="Keebs menu bar controls for pause, switch selection, volume, stereo width, room, and desk resonance">
@@ -40,7 +40,7 @@ Click **Enable** and allow Keebs under **System Settings → Privacy & Security 
 
 ## The experience
 
-- Six recorded switch sets: Cream Full Travel, MX Black, MX Blue, MX Brown, Turquoise, and Holy Pandas. Five press variations per set; separate release sounds. Dedicated Space, Return, and Delete recordings where available; MX Blue uses its generic samples for those keys.
+- Thirteen recorded sets: Cream Full Travel, MX Black, MX Blue, MX Brown, Turquoise, Holy Pandas, **Alpaca, Gateron Black Ink, Gateron Red Ink, Kailh Box Navy, SKCM Blue Alps, Topre, and Buckling Spring**. Five generic press slots per set and separate release recordings. Dedicated Space, Return, and Delete recordings where available; MX Blue uses its generic samples for those keys. Some source variation slots share a clip.
 - Sixteen original synthesized profiles across linear, tactile, clicky, and silent categories, explicitly labeled as synthesis rather than recordings of a commercial switch.
 - Physical key positions control stereo panning. Space, Return, and Delete have their own sound character. Repeated OS keydown events are ignored.
 - Preloaded 48 kHz samples, 32 overlapping voices, room reverb, low-frequency desk resonance, and a peak limiter. Volume, stereo width, natural variation, and key releases are adjustable.
@@ -51,11 +51,13 @@ The app makes network requests to GitHub only for update checks and downloads; i
 
 ## Recordings and licenses
 
-Bundled recordings come from [Mechvibes](https://github.com/hainguyents13/mechvibes) at pinned commit `326252a13e7bef4f1c35d08ef0189b5af6f8ba02`, under its MIT license. Holy Pandas has its own MIT notice, credited to Thomas Lai, and points to [kbsim](https://github.com/tplai/kbsim). Original files are preserved; Keebs decodes, converts to mono, resamples, and applies short boundary fades at load time.
+Bundled recordings come from [Mechvibes](https://github.com/hainguyents13/mechvibes) at pinned commit `326252a13e7bef4f1c35d08ef0189b5af6f8ba02`, and [kbsim](https://github.com/tplai/kbsim) at `ba103f3b0afa9dab80447aa2e7e2ed80b6bd80e4`, under their MIT licenses. Holy Pandas also retains its pack-specific MIT notice. kbsim recordings are credited to Thomas Lai. Original files are preserved; Keebs decodes, converts to mono, resamples, and applies short boundary fades at load time.
 
-See [third-party notices](docs/THIRD_PARTY_NOTICES.md) and [asset provenance](docs/audio-provenance.json) for attribution and original Git blob hashes. Keebs is independent of Klack and switch manufacturers; it uses no Klack code, artwork, or audio.
+See [third-party notices](docs/THIRD_PARTY_NOTICES.md), [Mechvibes provenance](docs/audio-provenance.json), and [kbsim provenance](docs/kbsim-audio-provenance.json) for attribution and original Git blob hashes. [The recording library](docs/RECORDINGS.md) explains the new sets and their source limitations. Keebs is independent of Klack and switch manufacturers; it uses no Klack code, artwork, or audio.
 
 ## Validation and distribution
+
+Version 0.1.3 expands the library to 13 recorded sets and 16 original synthesized profiles. All recordings are tested for Apple audio decoding and playback through the app’s real audio graph.
 
 Version 0.1.2 adds **Check for Updates…** in the app menu, menu bar panel, and studio, plus optional automatic checks. Sparkle verifies update signatures, installs, and relaunches after confirmation. The release workflow signs archives and publishes the update feed. See [one-time setup and release instructions](docs/UPDATES.md); GitHub needs the private signing-key secret before the first release can be published.
 
