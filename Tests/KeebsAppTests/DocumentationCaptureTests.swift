@@ -54,7 +54,8 @@ private enum DocumentationCapture {
         model.selectedID = "holy-pandas"
         let menu = MenuPanel().environmentObject(model).environmentObject(updater)
             .preferredColorScheme(.dark).background(Palette.background)
-        try writePNG(try await capture(menu, size: NSSize(width: 350, height: 700)),
+        let menuHeight = ceil(NSHostingView(rootView: menu).fittingSize.height)
+        try writePNG(try await capture(menu, size: NSSize(width: 350, height: menuHeight)),
                      to: directory.appendingPathComponent("menu-bar.png"))
         let preview = directory.appendingPathComponent("preview.gif")
         let gif = try XCTUnwrap(CGImageDestinationCreateWithURL(preview as CFURL, UTType.gif.identifier as CFString, frames.count, nil))
@@ -66,7 +67,7 @@ private enum DocumentationCapture {
     }
 
     private static func capture<Content: View>(_ content: Content, size: NSSize) async throws -> CGImage {
-        let window = NSWindow(contentRect: NSRect(origin: .zero, size: size),
+        let window = CaptureWindow(contentRect: NSRect(origin: .zero, size: size),
                               styleMask: [.borderless], backing: .buffered, defer: false)
         window.isReleasedWhenClosed = false
         window.appearance = NSAppearance(named: .darkAqua)
@@ -74,7 +75,8 @@ private enum DocumentationCapture {
         let host = NSHostingView(rootView: content.frame(width: size.width, height: size.height))
         host.frame = NSRect(origin: .zero, size: size)
         window.contentView = host
-        window.orderFront(nil)
+        window.makeKeyAndOrderFront(nil)
+        NSApplication.shared.activate(ignoringOtherApps: true)
         defer { window.close() }
         // Allow native text fields, sliders, fonts, and layout to finish drawing.
         try await Task.sleep(for: .milliseconds(500))
@@ -90,5 +92,11 @@ private enum DocumentationCapture {
         CGImageDestinationAddImage(destination, image, nil)
         XCTAssertTrue(CGImageDestinationFinalize(destination))
     }
+}
+
+@MainActor
+private final class CaptureWindow: NSWindow {
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { true }
 }
 #endif
