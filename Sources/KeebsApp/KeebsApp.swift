@@ -53,7 +53,10 @@ struct MenuPanel: View {
             Button { model.enabled.toggle() } label: {
                 Label(model.enabled ? "Pause sounds" : "Resume sounds", systemImage: model.enabled ? "pause.circle.fill" : "play.circle.fill")
                     .frame(maxWidth: .infinity)
-            }.buttonStyle(.borderedProminent).foregroundStyle(Palette.background)
+                    .padding(.vertical, 8)
+                    .foregroundStyle(Palette.background)
+                    .background(Palette.sage, in: RoundedRectangle(cornerRadius: 7))
+            }.buttonStyle(.plain)
             Text(model.enabled ? model.status : "Sounds paused").font(.caption).foregroundStyle(.secondary)
             Divider()
             Picker("Switch profile", selection: $model.selectedID) {

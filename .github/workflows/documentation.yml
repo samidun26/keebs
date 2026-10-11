@@ -1,0 +1,26 @@
+name: Capture documentation visuals
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/documentation.yml'
+      - 'Tests/KeebsAppTests/DocumentationCaptureTests.swift'
+      - 'scripts/make-icon.swift'
+      - 'Sources/KeebsApp/**'
+jobs:
+  capture:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Render app views
+        env:
+          KEEBS_DOCS_OUTPUT: ${{ runner.temp }}/keebs-visuals
+        run: swift test --filter DocumentationCaptureTests
+      - name: Export existing app logo
+        run: |
+          swift scripts/make-icon.swift "$RUNNER_TEMP/keebs-docs.iconset"
+          cp "$RUNNER_TEMP/keebs-docs.iconset/icon_512x512@2x.png" "$RUNNER_TEMP/keebs-visuals/logo.png"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Keebs-documentation-visuals
+          path: ${{ runner.temp }}/keebs-visuals
