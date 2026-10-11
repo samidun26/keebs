@@ -4,7 +4,10 @@ import AppKit
 import Carbon
 import KeebsCore
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    let updater = AppUpdater()
+    func applicationDidFinishLaunching(_ notification: Notification) { updater.start() }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 }
 
@@ -15,7 +18,7 @@ struct KeebsApplication: App {
     @StateObject private var model = AppModel()
     var body: some Scene {
         Window("Keebs", id: "library") {
-            LibraryView().environmentObject(model)
+            LibraryView().environmentObject(model).environmentObject(delegate.updater)
                 .preferredColorScheme(.dark)
                 .frame(minWidth: 1040, minHeight: 720)
         }
@@ -23,12 +26,14 @@ struct KeebsApplication: App {
         .windowStyle(.hiddenTitleBar)
         .commands {
             CommandGroup(after: .appInfo) {
+                UpdateMenuItems(updater: delegate.updater)
+                Divider()
                 Toggle("Keyboard sounds", isOn: $model.enabled)
                     .keyboardShortcut("m", modifiers: [.command, .shift])
             }
         }
         MenuBarExtra("Keebs", systemImage: model.enabled ? "keyboard" : "keyboard.badge.ellipsis") {
-            MenuPanel().environmentObject(model).preferredColorScheme(.dark)
+            MenuPanel().environmentObject(model).environmentObject(delegate.updater).preferredColorScheme(.dark)
         }.menuBarExtraStyle(.window)
     }
 }
@@ -36,6 +41,7 @@ struct KeebsApplication: App {
 @MainActor
 struct MenuPanel: View {
     @EnvironmentObject var model: AppModel
+    @EnvironmentObject var updater: AppUpdater
     @Environment(\.openWindow) var openWindow
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -75,6 +81,8 @@ struct MenuPanel: View {
                 Button("Enable keyboard access") { model.requestPermission() }
             }
             Divider()
+            Button("Check for Updates…") { updater.checkForUpdates() }
+                .disabled(!updater.canCheckForUpdates)
             HStack {
                 Button("Open studio") { openWindow(id: "library"); NSApp.activate(ignoringOtherApps: true) }
                 Spacer()
@@ -94,6 +102,15 @@ struct MenuPanel: View {
             }
             Slider(value: value, in: 0...1).controlSize(.small).accessibilityLabel(title)
         }
+    }
+}
+
+@MainActor
+private struct UpdateMenuItems: View {
+    @ObservedObject var updater: AppUpdater
+    var body: some View {
+        Button("Check for Updates…") { updater.checkForUpdates() }
+            .disabled(!updater.canCheckForUpdates)
     }
 }
 #else

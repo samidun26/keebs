@@ -3,3 +3,7 @@ dist/
 .DS_Store
 *.xcuserstate
 .swiftpm/
+__pycache__/
+*.pyc
+*private-key*
+*signing-key*

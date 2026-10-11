@@ -5,6 +5,7 @@ import KeebsCore
 @MainActor
 struct MixInspector: View {
     @EnvironmentObject var model: AppModel
+    @EnvironmentObject var updater: AppUpdater
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 25) {
@@ -39,6 +40,12 @@ struct MixInspector: View {
                 Button("Reset sound mix") { model.resetMix() }.buttonStyle(.plain).font(.system(size: 10)).foregroundStyle(Palette.sage)
                 divider
                 option("Launch at login", detail: "Keep your favorite sound close.", value: Binding(get: { model.launchAtLogin }, set: { model.setLogin($0) }))
+                divider
+                option("Check for updates automatically", detail: "Get notified when a new version is available.",
+                       value: Binding(get: { updater.automaticallyChecksForUpdates }, set: { updater.setAutomaticChecks($0) }))
+                Button("Check for Updates…") { updater.checkForUpdates() }
+                    .disabled(!updater.canCheckForUpdates)
+                    .font(.system(size: 10)).buttonStyle(.plain).foregroundStyle(Palette.sage)
                 if model.needsPermission {
                     Button("Open Input Monitoring settings") { model.openPermissions() }.font(.system(size: 10)).buttonStyle(.plain).foregroundStyle(Palette.sage)
                 }

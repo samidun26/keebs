@@ -7,12 +7,18 @@
     <key>CFBundleIdentifier</key><string>com.samidun.keebs</string>
     <key>CFBundleExecutable</key><string>Keebs</string>
     <key>CFBundlePackageType</key><string>APPL</string>
-    <key>CFBundleShortVersionString</key><string>0.1.1</string>
-    <key>CFBundleVersion</key><string>2</string>
+    <key>CFBundleShortVersionString</key><string>0.1.2</string>
+    <key>CFBundleVersion</key><string>3</string>
     <key>CFBundleIconFile</key><string>Keebs</string>
     <key>LSMinimumSystemVersion</key><string>14.0</string>
     <key>LSApplicationCategoryType</key><string>public.app-category.utilities</string>
     <key>NSHighResolutionCapable</key><true/>
     <key>NSInputMonitoringUsageDescription</key><string>Keebs uses physical key positions to play keyboard sounds across your apps. It never reads or saves typed text.</string>
+    <key>SUFeedURL</key><string>https://github.com/samidun26/keebs/releases/latest/download/appcast.xml</string>
+    <key>SUPublicEDKey</key><string>oARLAjY9ST/dwf5Fwy06ZOfvfmjMWukwZhqjyP4IYEg=</string>
+    <key>SUVerifyUpdateBeforeExtraction</key><true/>
+    <key>SUEnableAutomaticChecks</key><false/>
+    <key>SUAutomaticallyUpdate</key><false/>
+    <key>SUEnableSystemProfiling</key><false/>
 </dict>
 </plist>
