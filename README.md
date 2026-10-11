@@ -26,7 +26,7 @@ Click **Enable** and allow Keebs under **System Settings → Privacy & Security 
 - Sixteen original synthesized profiles across linear, tactile, clicky, and silent categories, explicitly labeled as synthesis rather than recordings of a commercial switch.
 - Physical key positions control stereo panning. Space, Return, and Delete have their own sound character. Repeated OS keydown events are ignored.
 - Preloaded 48 kHz samples, 32 overlapping voices, room reverb, low-frequency desk resonance, and a peak limiter. Volume, stereo width, natural variation, and key releases are adjustable.
-- Search, category filters, favorites, an interactive keyboard playground, persistent settings, optional launch at login, and a menu bar panel for quick switching and pausing. **⌘⇧M** toggles sound while Keebs is the active app.
+- Search, category filters, favorites, an interactive keyboard playground, persistent settings, and optional launch at login. Click the **keyboard icon in the macOS menu bar** to pause/resume, choose or cycle switches, preview/favorite a sound, and adjust volume, stereo width, room, and desk resonance directly. Desktop and menu bar controls share the same settings. **⌘⇧M** toggles sound while Keebs is the active app.
 - Listen-only key capture. No typed characters are read, no keystroke history is saved, and macOS secure input pauses capture. Sleep, wake, and audio-device changes reset or reload playback.
 
 The app makes no network requests and sends no analytics. Settings and favorites live in macOS UserDefaults. Stereo positions use an ANSI layout approximation; unknown key codes are centered. Modifier-only presses currently do not play sounds.
@@ -39,6 +39,8 @@ See [third-party notices](docs/THIRD_PARTY_NOTICES.md) and [asset provenance](do
 
 ## Validation and distribution
 
-GitHub Actions runs the Swift tests on macOS, builds a universal `.app`, validates the resource bundle and signature, and uploads `Keebs-macOS.zip` as a workflow artifact. Tests cover waveform bounds, release energy, unique profile output, key repeat suppression, reset behavior, stereo placement, and settings clamping.
+GitHub Actions runs the Swift tests on macOS, builds a universal `.app`, validates the resource bundle and signature, and uploads `Keebs-macOS.zip` as a workflow artifact. Tests cover waveform bounds, release energy, unique profile output, key repeat suppression, reset behavior, stereo placement, and settings clamping. App regressions exercise over 1,000 slider updates, shared menu/desktop bindings, settings persistence, pause/resume, and profile cycling. An offline-rendering test starts the actual AVAudioEngine graph, adjusts its mix, and verifies audible, finite, spatially panned output from a recorded key.
+
+Version 0.1.1 fixes a reentrant published-settings write that could freeze sliders or terminate the app. Validation now happens on a local settings copy before publishing it. Audio callbacks hop explicitly to the main actor, and device-change recovery observes only Keebs' engine and coalesces repeated notifications.
 
 The default build uses an **ad hoc signature** for local testing. A public downloadable release needs a Developer ID signature and notarization; `KEEBS_SIGNING_IDENTITY` accepts your signing identity, but the script does not notarize. This repository's first implementation still requires the interactive checks in [macOS validation](docs/MACOS_VALIDATION.md); CI cannot approve Input Monitoring or judge the sound experience.

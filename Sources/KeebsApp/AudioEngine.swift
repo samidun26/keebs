@@ -10,8 +10,21 @@ private struct BufferKey: Hashable {
 }
 
 @MainActor
-final class KeyboardAudio {
-    private let engine = AVAudioEngine()
+protocol KeyboardAudioOutput: AnyObject {
+    var onReady: ((String?) -> Void)? { get set }
+    var configurationSource: AnyObject { get }
+    func apply(_ settings: SoundSettings)
+    func prepare(_ item: LibraryItem)
+    func start() throws
+    func play(key: PhysicalKey, phase: KeyPhase) throws
+    func silence()
+    func suspend()
+}
+
+@MainActor
+final class KeyboardAudio: KeyboardAudioOutput {
+    let engine = AVAudioEngine()
+    var configurationSource: AnyObject { engine }
     private let mix = AVAudioMixerNode()
     private let room = AVAudioUnitReverb()
     private let desk = AVAudioUnitEQ(numberOfBands: 1)

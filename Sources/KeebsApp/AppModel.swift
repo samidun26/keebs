@@ -4,13 +4,25 @@ import Combine
 import ServiceManagement
 import AVFoundation
 import Carbon
+import SwiftUI
 import KeebsCore
 
 @MainActor
 final class AppModel: ObservableObject {
     @Published var selectedID: String { didSet { selectSound() } }
-    @Published var settings: SoundSettings { didSet { settings.sanitize(); audio.apply(settings); persist() } }
-    @Published var enabled: Bool { didSet { previewTask?.cancel(); tracker.reset(); heldKeys.removeAll(); audio.silence(); persist() } }
+    // Never write back into a @Published property from its own observer.
+    @Published private(set) var settings: SoundSettings { didSet { audio.apply(settings); persist() } }
+    @Published var enabled: Bool {
+        didSet {
+            previewTask?.cancel()
+            tracker.reset()
+            heldKeys.removeAll()
+            if enabled && !loading {
+                do { try audio.start() } catch { self.error = error.localizedDescription }
+            } else { audio.suspend() }
+            persist()
+        }
+    }
     @Published var favorites: Set<String> { didSet { persist() } }
     @Published var status = "Checking keyboard access…"
     @Published var monitorReady = false
@@ -19,51 +31,60 @@ final class AppModel: ObservableObject {
     @Published var heldKeys: Set<UInt16> = []
     @Published var keyCount = 0
     @Published var launchAtLogin = false
-    private let audio = KeyboardAudio()
+    private let audio: any KeyboardAudioOutput
     private let monitor = InputMonitor()
     private var tracker = KeyTracker()
     private var configObserver: NSObjectProtocol?
+    private var recoveryTask: Task<Void, Never>?
     private var previewTask: Task<Void, Never>?
-    private let defaults = UserDefaults.standard
+    private let defaults: UserDefaults
     var selected: LibraryItem { LibraryItem.all.first { $0.id == selectedID } ?? LibraryItem.all[0] }
     var needsPermission: Bool { !CGPreflightListenEventAccess() }
 
-    init() {
-        let stored = UserDefaults.standard
-        selectedID = stored.string(forKey: "selectedProfile") ?? LibraryItem.all[0].id
+    init(defaults: UserDefaults = .standard, audio: (any KeyboardAudioOutput)? = nil, monitorInput: Bool = true) {
+        self.defaults = defaults
+        self.audio = audio ?? KeyboardAudio()
+        let stored = defaults
+        let savedID = stored.string(forKey: "selectedProfile")
+        selectedID = LibraryItem.all.first { $0.id == savedID }?.id ?? LibraryItem.all[0].id
         enabled = stored.object(forKey: "enabled") as? Bool ?? true
         favorites = Set(stored.stringArray(forKey: "favorites") ?? [])
         var restored = stored.data(forKey: "soundSettings").flatMap { try? JSONDecoder().decode(SoundSettings.self, from: $0) } ?? SoundSettings()
         restored.sanitize()
         settings = restored
-        launchAtLogin = SMAppService.mainApp.status == .enabled
-        audio.onReady = { [weak self] message in
-            self?.loading = false
-            self?.error = message
+        launchAtLogin = monitorInput && SMAppService.mainApp.status == .enabled
+        self.audio.onReady = { [weak self] message in
+            guard let self else { return }
+            loading = false
+            error = message
+            if !enabled { self.audio.suspend() }
         }
         monitor.onKey = { [weak self] code, phase, repeated in
-            MainActor.assumeIsolated { self?.handle(code, phase, repeated) }
+            Task { @MainActor [weak self] in self?.handle(code, phase, repeated) }
         }
         monitor.onStatus = { [weak self] message, ready in
-            MainActor.assumeIsolated {
+            Task { @MainActor [weak self] in
                 guard let self else { return }
                 if self.status != message { self.status = message }
                 if self.monitorReady != ready { self.monitorReady = ready }
             }
         }
         monitor.onReset = { [weak self] in
-            MainActor.assumeIsolated {
+            Task { @MainActor [weak self] in
+                self?.previewTask?.cancel()
                 self?.tracker.reset()
                 self?.heldKeys.removeAll()
                 self?.audio.suspend()
             }
         }
-        configObserver = NotificationCenter.default.addObserver(forName: .AVAudioEngineConfigurationChange,
-                                                               object: nil, queue: .main) { [weak self] _ in
-            MainActor.assumeIsolated { self?.selectSound() }
+        if monitorInput {
+            configObserver = NotificationCenter.default.addObserver(forName: .AVAudioEngineConfigurationChange,
+                                                                   object: self.audio.configurationSource, queue: nil) { [weak self] _ in
+                Task { @MainActor [weak self] in self?.scheduleAudioRecovery() }
+            }
         }
         selectSound()
-        monitor.begin()
+        if monitorInput { monitor.begin() }
     }
 
     func handle(_ code: UInt16, _ phase: KeyPhase, _ repeated: Bool) {
@@ -116,7 +137,36 @@ final class AppModel: ObservableObject {
         } catch { self.error = error.localizedDescription }
     }
 
-    func resetMix() { settings = SoundSettings() }
+    func mixBinding<Value>(_ keyPath: WritableKeyPath<SoundSettings, Value>) -> Binding<Value> {
+        Binding(get: { self.settings[keyPath: keyPath] }, set: { value in
+            var next = self.settings
+            next[keyPath: keyPath] = value
+            self.updateMix(next)
+        })
+    }
+
+    private func updateMix(_ value: SoundSettings) {
+        var next = value
+        next.sanitize()
+        guard next != settings else { return }
+        settings = next
+    }
+
+    func resetMix() { updateMix(SoundSettings()) }
+
+    func stepProfile(_ direction: Int) {
+        let count = LibraryItem.all.count
+        let index = LibraryItem.all.firstIndex { $0.id == selectedID } ?? 0
+        selectedID = LibraryItem.all[(index + direction % count + count) % count].id
+    }
+
+    private func scheduleAudioRecovery() {
+        recoveryTask?.cancel()
+        recoveryTask = Task { @MainActor [weak self] in
+            do { try await Task.sleep(for: .milliseconds(150)) } catch { return }
+            self?.selectSound()
+        }
+    }
 
     private func selectSound() {
         previewTask?.cancel()
