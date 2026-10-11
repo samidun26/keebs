@@ -1,0 +1,27 @@
+name: Build macOS app
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test audio and key tracking
+        run: swift test
+      - name: Build universal app
+        run: KEEBS_UNIVERSAL=1 bash scripts/build-app.sh
+      - name: Verify bundle
+        run: |
+          plutil -lint dist/Keebs.app/Contents/Info.plist
+          test -n "$(find dist/Keebs.app/Contents/Resources -path '*holy-pandas/GENERIC_R0.mp3' -print -quit)"
+          codesign --verify --deep --strict dist/Keebs.app
+      - name: Zip app
+        run: ditto -c -k --sequesterRsrc --keepParent dist/Keebs.app dist/Keebs-macOS.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Keebs-macOS
+          path: dist/Keebs-macOS.zip
