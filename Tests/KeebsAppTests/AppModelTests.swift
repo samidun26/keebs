@@ -12,7 +12,7 @@ private final class RecordingAudio: KeyboardAudioOutput {
     var starts = 0
     var suspensions = 0
     func apply(_ settings: SoundSettings) { applied.append(settings) }
-    func prepare(_ item: LibraryItem) { selectedID = item.id; onReady?(nil) }
+    func prepare(_ item: KeebsCore.LibraryItem) { selectedID = item.id; onReady?(nil) }
     func start() throws { starts += 1 }
     func play(key: PhysicalKey, phase: KeyPhase) throws {}
     func silence() {}
@@ -88,10 +88,10 @@ final class AppModelTests: XCTestCase {
             XCTAssertTrue(model.heldKeys.isEmpty)
             XCTAssertGreaterThan(audio.suspensions, previousSuspensions)
             model.stepProfile(-1)
-            XCTAssertEqual(model.selectedID, LibraryItem.all.last?.id)
+            XCTAssertEqual(model.selectedID, KeebsCore.LibraryItem.all.last?.id)
             XCTAssertEqual(audio.selectedID, model.selectedID)
             model.stepProfile(1)
-            XCTAssertEqual(model.selectedID, LibraryItem.all.first?.id)
+            XCTAssertEqual(model.selectedID, KeebsCore.LibraryItem.all.first?.id)
             model.enabled = true
             XCTAssertGreaterThan(audio.starts, 0)
             XCTAssertTrue(defaults.bool(forKey: "enabled"))

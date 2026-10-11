@@ -13,7 +13,7 @@ final class AudioEngineTests: XCTestCase {
             // Uses the same graph as the app, without depending on CI's sound device.
             try audio.engine.enableManualRenderingMode(.offline, format: format, maximumFrameCount: 1024)
             audio.onReady = { error in XCTAssertNil(error); ready.fulfill() }
-            audio.prepare(LibraryItem.all[0])
+            audio.prepare(KeebsCore.LibraryItem.all[0])
             return audio
         }
         await fulfillment(of: [ready], timeout: 10)
