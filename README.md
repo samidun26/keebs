@@ -36,6 +36,8 @@ open dist/Keebs.app
 
 For both Apple Silicon and Intel, use `KEEBS_UNIVERSAL=1 bash scripts/build-app.sh`. Open `Package.swift` in Xcode to edit and debug. Use the packaged app for permission and login-item checks; Swift Package previews and an unbundled executable do not provide the same app identity.
 
+Keebs starts in the **menu bar**, with no Dock icon or studio window. Click its keyboard icon and choose **Open studio** when you want the full library. Closing the studio keeps keyboard sounds running; use **Quit** in the menu bar panel to stop Keebs. If an older version was pinned to the Dock, remove that pinned shortcut separately.
+
 Click **Enable** and allow Keebs under **System Settings → Privacy & Security → Input Monitoring**. If macOS requests it, quit and reopen the app. Preview buttons and the focused keyboard test area also work without system-wide permission. Move the app into `/Applications` before enabling launch at login, and keep it in a stable location when testing permissions.
 
 ## The experience
@@ -56,6 +58,8 @@ Bundled recordings come from [Mechvibes](https://github.com/hainguyents13/mechvi
 See [third-party notices](docs/THIRD_PARTY_NOTICES.md), [Mechvibes provenance](docs/audio-provenance.json), and [kbsim provenance](docs/kbsim-audio-provenance.json) for attribution and original Git blob hashes. [The recording library](docs/RECORDINGS.md) explains the new sets and their source limitations. Keebs is independent of Klack and switch manufacturers; it uses no Klack code, artwork, or audio.
 
 ## Validation and distribution
+
+Version 0.1.4 starts as a menu bar app with no Dock icon. The studio opens on demand, and closing it keeps the sound service running. Automated lifecycle checks verify accessory activation, background launch, and studio close/reopen without interrupting audio.
 
 Version 0.1.3 expands the library to 13 recorded sets and 16 original synthesized profiles. All recordings are tested for Apple audio decoding and playback through the app’s real audio graph.
 
