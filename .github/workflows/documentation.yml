@@ -6,6 +6,7 @@ on:
       - '.github/workflows/documentation.yml'
       - 'Tests/KeebsAppTests/DocumentationCaptureTests.swift'
       - 'scripts/make-icon.swift'
+      - 'Sources/KeebsApp/**'
 jobs:
   capture:
     runs-on: macos-26
